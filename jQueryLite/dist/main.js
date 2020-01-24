@@ -104,7 +104,7 @@ eval("class DOMNodeCollection {\n  constructor(array) {\n    this.array = array;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const DOMNodeCollection = __webpack_require__(/*! ./dom_node_collections.js */ \"./src/dom_node_collections.js\");\n\nwindow.$l = function(arg) {\n  if (typeof arg === 'string') {\n    let arr = Array.from(document.querySelectorAll(arg));\n    return new DOMNodeCollection(arr);\n  } else if (arg instanceof HTMLElement) {\n    return new DOMNodeCollection([arg]);\n  }\n\n\n};\n\n\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("const DOMNodeCollection = __webpack_require__(/*! ./dom_node_collections.js */ \"./src/dom_node_collections.js\");\n\nconst docReadyCBs = [];\n\nlet fx = () => alert(\"the document is ready\");\ndocReadyCBs.push(fx);\n\nwindow.$l = function(arg) {\n  if (typeof arg === 'string') {\n    let arr = Array.from(document.querySelectorAll(arg));\n    return new DOMNodeCollection(arr);\n  } else if (arg instanceof HTMLElement) {\n    return new DOMNodeCollection([arg]);\n  } else if (arg instanceof Function) {\n    if (document.readyState === 'complete') {\n      arg();\n      docReadyCBs.forEach(func => {\n        func();\n      });\n    } else {\n      docReadyCBs.push(arg);\n    }\n  }\n};\n\n$l(() => {\n  console.log('hello');\n  \n})\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 
