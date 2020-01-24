@@ -95,6 +95,28 @@ class DOMNodeCollection {
       el.innerHTML = "";
     });
   }
+
+  on(event, cb) {
+    // this.attr(event, cb);
+
+    this.array.forEach(el => {
+      debugger
+      const key = `js-${event}`;
+
+      el[key] = cb;
+      el.addEventListener(event, cb);
+      debugger
+    });
+  }
+
+  off(event) {
+    this.array.forEach(el => {
+      debugger
+
+      el.removeEventListener(event, el[`js-${event}`]);
+    });
+  }
 }
+
 
 module.exports = DOMNodeCollection;
